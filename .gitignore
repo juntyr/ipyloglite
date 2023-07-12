@@ -1,0 +1,7 @@
+/dist
+/ipyloglite.egg-info
+/venv
+/site
+
+**/.ipynb_checkpoints
+**/__pycache__

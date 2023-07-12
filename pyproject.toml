@@ -1,0 +1,49 @@
+[project]
+name = "ipyloglite"
+version = "0.0.0"
+requires-python = ">=3.7"
+description = "Forward console.log and friends to cell outputs in JupyterLite."
+readme = "README.md"
+license = { file = "LICENSE-APACHE" }
+authors = [
+    { name = "Juniper Tyree", email = "juniper.tyree@helsinki.fi" }
+]
+maintainers = [
+    { name = "Juniper Tyree", email = "juniper.tyree@helsinki.fi" }
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["black", "build", "bumpver", "pyproject-flake8", "isort", "twine"]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ipyloglite*"]
+namespaces = true
+
+[tool.black]
+target-version = ['py37']
+line-length = 79
+preview = true
+
+[tool.isort]
+py_version = 37
+profile = "black"
+line_length = 79
+
+[tool.flake8]
+
+[tool.bumpver]
+current_version = "0.1.0"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message  = "Bump version {old_version} -> {new_version}"
+commit          = true
+tag             = true
+push            = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
