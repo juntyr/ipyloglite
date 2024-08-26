@@ -2,7 +2,7 @@ try:
     import js
     import pyodide
     import pyodide_js
-    import pyodide_kernel
+    import pyodide_kernel  # noqa: F401
 except ImportError:
     # no-op outside of a JupyterLite notebook
     pass
