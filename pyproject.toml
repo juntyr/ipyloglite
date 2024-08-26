@@ -1,6 +1,6 @@
 [project]
 name = "ipyloglite"
-version = "0.0.0"
+version = "0.1.0"
 requires-python = ">=3.7"
 description = "Forward console.log and friends to cell outputs in JupyterLite."
 readme = "README.md"
