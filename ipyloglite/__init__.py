@@ -1,9 +1,13 @@
 try:
+    import js
     import pyodide
+    import pyodide_kernel
 except ImportError:
     # no-op outside of a JupyterLite notebook
     pass
 else:
+    js.__jupyterlite_stream_callback = pyodide_kernel.sys.stdout.publish_stream_callback
+    
     pyodide.code.run_js(r"""
 // Save the original console.log and console.error methods
 if (this.__console_log === undefined) {
@@ -39,13 +43,7 @@ function jupyterlite_console_capture(stream, fallback, ...args) {
     }
 
     // Forward the message to the Jupyter cell output
-    postMessage({
-        bundle: {
-            name: stream,
-            text: "[pyodide]: " + message,
-        },
-        type: "stream",
-    });
+    this.__jupyterlite_stream_callback(stream, "[pyodide]: " + message);
 
     return fallback(...args);
 }
