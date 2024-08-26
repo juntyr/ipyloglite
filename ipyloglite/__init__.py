@@ -1,11 +1,13 @@
 try:
     import js
     import pyodide
+    import pyodide_js
     import pyodide_kernel
 except ImportError:
     # no-op outside of a JupyterLite notebook
     pass
 else:
+    js.__ipyloglite_pyodide = pyodide_js
     js.__jupyterlite_stream_callback = (
         pyodide_kernel.sys.stdout.publish_stream_callback
     )
@@ -44,8 +46,20 @@ function jupyterlite_console_capture(stream, fallback, ...args) {
         return fallback(...args);
     }
 
+    // Ensure that the JupyterLite stream callback is initialised
+    if (this.__ipyloglite_jupyterlite_stream_callback === undefined) {
+        this.__ipyloglite_jupyterlite_stream_callback =
+            this.__ipyloglite_pyodide.runPython(
+                "import pyodide_kernel;" +
+                "pyodide_kernel.sys.stdout.publish_stream_callback"
+            );
+        delete this.__ipyloglite_pyodide;
+    }
+
     // Forward the message to the Jupyter cell output
-    this.__jupyterlite_stream_callback(stream, "[pyodide]: " + message);
+    this.__ipyloglite_jupyterlite_stream_callback(
+        stream, "[pyodide]: " + message
+    );
 
     return fallback(...args);
 }
