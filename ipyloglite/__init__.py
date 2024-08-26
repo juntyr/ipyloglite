@@ -10,8 +10,7 @@ else:
         pyodide_kernel.sys.stdout.publish_stream_callback
     )
 
-    pyodide.code.run_js(
-        r"""
+    pyodide.code.run_js(r"""
 // Save the original console.log and console.error methods
 if (this.__console_log === undefined) {
     this.__console_log = console.log;
@@ -58,5 +57,4 @@ console.log = (...args) => jupyterlite_console_capture(
 console.error = (...args) => jupyterlite_console_capture(
     "stderr", __console_error, ...args,
 );
-    """
-    )
+    """)
