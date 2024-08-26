@@ -8,9 +8,6 @@ except ImportError:
     pass
 else:
     js.__ipyloglite_pyodide = pyodide_js
-    js.__jupyterlite_stream_callback = (
-        pyodide_kernel.sys.stdout.publish_stream_callback
-    )
 
     pyodide.code.run_js(r"""
 // Save the original console.log and console.error methods
